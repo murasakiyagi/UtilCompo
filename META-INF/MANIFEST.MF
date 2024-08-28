@@ -1,0 +1,4 @@
+Class-Path: javafx.controls.jar 
+ javafx.graphics.jar 
+Main-Class: pack.FxBase
+
