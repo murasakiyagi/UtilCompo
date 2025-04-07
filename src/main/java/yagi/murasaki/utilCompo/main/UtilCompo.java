@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 //import yagi.murasaki.utilCompo.quick.time.Timer;
 
 /**
-* Panelなどの属性として汎用的に使う
+* 動作実験用として汎用的に使う
 */
 public class UtilCompo extends Application {
 
