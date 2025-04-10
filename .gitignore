@@ -1,2 +1,6 @@
 # この名前のファイル全て
 **/.DS_Store
+
+# javadoc生成物。javadocを公開する場合、github pages(github提供の公開webサイト)
+maven-javadoc-plugin-stale-data.txt
+apidocs/

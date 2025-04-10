@@ -8,6 +8,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 
+/**
+* シーンにイベントをセットする
+* 
+* 
+* 
+*/
 public interface SetOnFace {
 
 	/**

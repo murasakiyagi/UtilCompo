@@ -31,7 +31,7 @@ public class AttA extends Att {
 	
 	/**
 	* 初期値ありのコンストラクタ
-	* @param num 番号
+	* @param own 持ち主
 	* @param map 属性マップ
 	*/
 	public AttA(Object own, Map<String, Object> map) {

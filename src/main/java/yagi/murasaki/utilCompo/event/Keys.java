@@ -11,9 +11,10 @@ import javafx.scene.input.KeyEvent;
 */
 public class Keys {
 	
-	/**
-	* 各キーの状態
-	*/
+	/** * 空のコンストラクタ */
+	public Keys() {}
+	
+	/** * 各キーの状態 */
 //	public static boolean 	isQ, isW, isP, 
 	protected boolean 	isQ, isW, isO, isP, 
 						isZ, isX, isC, isV, isB, isN, isM, 
@@ -131,35 +132,80 @@ public class Keys {
 		}
 	}
 
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean Q() { return isQ; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean W() { return isW; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean O() { return isO; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean P() { return isP; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean Z() { return isZ; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean X() { return isX; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean C() { return isC; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean V() { return isV; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean B() { return isB; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean N() { return isN; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean M() { return isM; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean up() { return isUp; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean down() { return isDown; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean left() { return isLeft; }
-	/** * @return キーの状態 */
+	/**
+	* キーの状態
+	* @return キーの状態
+	*/
 	public boolean right() { return isRight; }
 
 }

@@ -8,10 +8,15 @@ import javafx.geometry.Point2D;
 
 import yagi.murasaki.utilCompo.quick.QuickUtil;
 
-
+/**
+* Point2Dカスタム
+* 
+* 
+* 
+*/
 public class P2Dcustom extends Point2D {
 
-	/** * 仮 */
+	/** * staticメソッドを使えるように */
 	private static P2Dcustom KARI = new P2Dcustom(0,0);//static用
 	/** * ０〜３ */
 	private List<Integer> yonList;
@@ -23,12 +28,19 @@ public class P2Dcustom extends Point2D {
 		super(0,0);
 		init();
 	}
-	/** * 指定座標 */
+	/**
+	* 指定座標
+	* @param x 横座標
+	* @param y 縦座標
+	*/
 	public P2Dcustom(double x, double y) {
 		super(x,y);
 		init();
 	}
-	/** * 他の座標参照 */
+	/**
+	* 他の座標参照
+	* @param pd 他の座標
+	*/
 	public P2Dcustom(Point2D pd) {
 		super(pd.getX(), pd.getY());
 		init();
@@ -64,7 +76,7 @@ public class P2Dcustom extends Point2D {
 
 	/**
 	* FX Point2Dの座標を元に、新しいSE Pointを返す。少数１位をラウンドしてある。
-	* @param pt FX Point2Dオブジェクト
+	* @param pd FX Point2Dオブジェクト
 	* @return 新しいPoint
 	*/
 	static public Point deFxp2d(Point2D pd) {
@@ -115,7 +127,13 @@ public class P2Dcustom extends Point2D {
 	}
 	
 	/**
-	* xyは最終的に{-1,0,1}のどれか
+	* この座標に対する指定座標からXY軸のプラマイの符号を得て、その値からPoint2Dを作る<br>
+		指定座標 - この座標<br>
+		例、pd:(1, 4) - this:(2, 2)<br>
+		return (-1, 1);<br>
+
+	* @param pd 目標座標
+	* @return  XYが[-1, 0, 1]のどれかで作られたPoint2D
 	*/
 	public Point2D signumPd(Point2D pd) {
 		double x, y;
@@ -126,50 +144,63 @@ public class P2Dcustom extends Point2D {
 	}
 	
 	/**
-	* 引数pdとthisの比較
+	* この座標に対する指定座標からX軸のプラマイの符号を得る<br>
+		指定座標 - この座標
+	* @param pd 目標座標
+	* @return  [-1, 0, 1]のどれか
 	*/
 	public double signumX(Point2D pd) {//X軸の符号を得る
 		return Math.signum(pd.getX() - this.getX());
 	}
 	
+	/**
+	* この座標に対する指定座標からY軸のプラマイの符号を得る<br>
+		指定座標 - この座標
+	* @param pd 目標座標
+	* @return  [-1, 0, 1]のどれか
+	*/
 	public double signumY(Point2D pd) {//Y軸の符号を得る
 		return Math.signum(pd.getY() - this.getY());
 	}
 	
 	/**
-	* 方向を文字列として表す
+	* この座標から指定の座標の方向を文字列として表す<br>
+		nw n0 ne<br>
+		0w 00 0e<br>
+		sw s0 se<br>
+	* @param pd 目標座標
+	* @return この座標から指定座標を見た時の、文字列として表現する方角
 	*/
 	public String bearing(Point2D pd) {
-		String compass = "";//方角
+		StringBuilder compass = new StringBuilder();//方角
 		double x, y;
 		
 		x = signumX(pd);
 		y = signumY(pd);
 		
-		if(y == 1) { compass += "s"; }
-		if(y == -1) { compass += "n"; }
-		if(y == 0) { compass += "0"; }
+		if(y == 1) { compass.append("s"); } else 
+		if(y == -1) { compass.append("n"); } else 
+		if(y == 0) { compass.append("0"); }
 		
-		if(x == 1) { compass += "e"; }
-		if(x == -1) { compass += "w"; }
-		if(x == 0) { compass += "0"; }
+		if(x == 1) { compass.append("e"); } else 
+		if(x == -1) { compass.append("w"); } else 
+		if(x == 0) { compass.append("0"); }
 
-		return compass;
+		return compass.toString();
 	}
 	
 	
 	/**
-	* 戻り値をaddするためのメソッド
-	* 	pd.add(directMove(i, 2));
-	* 第一引数により示す方向
-	* 	7 0 4
-	* 	3 * 1
-	* 	6 2 5
+	* 戻り値をaddするためのメソッド<br>
+	* 	pd.add(directMove(i, 2));<br>
+	* 第一引数により示す方向<br>
+	* 	7 0 4<br>
+	* 	3 * 1<br>
+	* 	6 2 5<br>
 	* 
-	* ＊メソッド名のNumは、戻り値がnumではなく引数
-	*
 	* @param num 方向を決める番号
 	* @param scale ベクトルの大きさ
+	* @return numより示す方向にscale分先の座標
 	*/
 	public static Point2D directMove(int num, double scale) {
 		Point2D pd = Point2D.ZERO;
@@ -190,6 +221,7 @@ public class P2Dcustom extends Point2D {
 	* 目的地が現在地の隣(＋１)の地点か？
 	* @param pd 現在地
 	* @param tgtPd 目的地
+	* @return 隣同士なら真
 	*/
 	public static boolean isNext(Point2D pd, Point2D tgtPd) {
 		boolean bool = false;
@@ -201,7 +233,8 @@ public class P2Dcustom extends Point2D {
 	}
 
 	/**
-	* 上下左右の＋１の座標配列を返す
+	* 指定座標の上下左右の＋１の座標配列を返す。指定座標は含まない
+	* @param pd 指定座標
 	* @return 隣の座標４つが入った配列
 	*/
 	public static Point2D[] nexts(Point2D pd) {
@@ -213,7 +246,8 @@ public class P2Dcustom extends Point2D {
 	}
 
 	/**
-	* 上下左右斜めの＋１の座標配列を返す
+	* 指定座標の上下左右および四隅の＋１の座標配列を返す。指定座標は含まない
+	* @param pd 指定座標
 	* @return 隣の座標８つが入った配列
 	*/
 	public static Point2D[] eight(Point2D pd) {
@@ -234,19 +268,19 @@ public class P2Dcustom extends Point2D {
 	}
 
 	/**
-	* 推奨。randomNext()よりこっち。連続して同じ値が出ない
+	* randomNext()の連続して同じ値が出ない版<br>
 	* 使用するクラスで、pd.add(nextFour())
+	* @return 適当な隣の座標
 	*/
 	public Point2D nextFour() {
 		return directMove(fourList(false), 1);
 	}
 
 		/**
-		* 推奨。fourListをstaticで共有するべきでないので
 		* fourListの中からランダムに選びその値を消すので、重複がない
 		* このメソッドを５回呼ぶか、resetFourList()でfourListを元に戻す。
 		* ５回目は-1確定
-		* @param reset 真ならfourListを回復して、結果を出す
+		* @param reset 真ならfourListを回復する
 		* @return 0 〜　３のどれか
 		*/
 		public int fourList(boolean reset) {
@@ -271,9 +305,8 @@ public class P2Dcustom extends Point2D {
 	* @return fourList
 	*/
 	public List<Integer> getFourList() { return fourList; }
-	/**
-	* fourListを回復
-	*/
+
+	/** * fourListを回復 */
 	public void resetFourList() {
 		fourList.clear();
 		fourList.addAll(yonList);
@@ -282,7 +315,7 @@ public class P2Dcustom extends Point2D {
 
 //距離
 	/**
-	* 角距離。直線ではなく２辺の距離
+	* マンハッタン距離。直線ではなく２辺の距離
 	* @param pd ここから
 	* @param tgtPd そこ
 	* @return 距離
@@ -292,33 +325,6 @@ public class P2Dcustom extends Point2D {
 		double row = Math.abs(pd.getY() - tgtPd.getY());
 		return col + row;
 	}
-
-	/**
-	* ２点間の直角距離。壁無視
-	* dis : ピタゴラス。直線距離
-	* pow : a^2 + b^2 = c^2 = dis
-	* sqrt : (a==1)a^2=1, c^2 - a^2 = b^2 
-	* 		c = sqrt(a^2 + b^2)
-	* @param pd ここから
-	* @param tgtPd そこ
-	* @return 距離
-	*/
-	public static double kyori(Point2D pd, Point2D tgtPd) {
-		double dis = pd.distance(tgtPd);
-		double pow = Math.pow(dis, 2);
-		double sqrt = Math.sqrt(pow / 2) * 2;
-		return Math.round(sqrt);
-	}
-
-		/**
-		* ２点間の直角距離。int値。壁無視
-		* @param pd ここから
-		* @param tgtPd そこ
-		* @return 距離
-		*/
-		public static int kyoriInt(Point2D pd, Point2D tgtPd) {
-			return (int)kyori(pd, tgtPd);
-		}
 
 //	便利
 

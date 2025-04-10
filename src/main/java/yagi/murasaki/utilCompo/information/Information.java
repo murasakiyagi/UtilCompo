@@ -124,9 +124,14 @@ public class Information implements InfoSubject {
 	*/
 	public Point3D getPd3() { return pd3; }
 
-	/** * マスゲームの舞台 */
+	/** * 便利機能 */
 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫
-	/** * 「 +" "+ 」いらず * @param objs 可変長Object */
-	protected void print(Object... objs) { qu.print(objs); }
+	/**
+	* 「+" "+」でつなげるのめんどいから
+	* @param objs 可変長Object
+	*/
+	public void print(Object... objs) {
+		qu.print(objs);
+	}
 
 }

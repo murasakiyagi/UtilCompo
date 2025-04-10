@@ -12,23 +12,37 @@ import yagi.murasaki.utilCompo.quick.QuickUtil;
 */
 public class PointCustom extends Point {
 
+	/** * staticメソッドを使えるように */
 	private static PointCustom KARI = new PointCustom(0,0);//static用
+	/** * ０〜３ */
 	private List<Integer> yonList;
+	/** * yonListコピー */
 	private List<Integer> fourList;
 
+	/** * 0,0座標 */
 	public PointCustom() {
 		super(0, 0);
 		init();
 	}
+	/**
+	* 指定座標
+	* @param x 横座標
+	* @param y 縦座標
+	*/
 	public PointCustom(int x, int y) {
 		super(x, y);
 		init();
 	}
+	/**
+	* 他の座標参照
+	* @param pt 他の座標
+	*/
 	public PointCustom(Point pt) {
 		super((int)pt.getX(), (int)pt.getY());
 		init();
 	}
 	
+	/** * 初期化 */
 	private void init() {
 		yonList = List.of(0, 1, 2, 3);//nesw用に作ったので、0~3
 		fourList = new ArrayList<>();
@@ -37,6 +51,10 @@ public class PointCustom extends Point {
 	}
 	
 	
+	/**
+	* 新しい(0,0)のこのクラスオブジェクト
+	* @return 新しいP2Dcustom
+	*/
 	public PointCustom zero() {
 		return new PointCustom(0, 0);
 	}
@@ -52,7 +70,7 @@ public class PointCustom extends Point {
 	}
 
 		/**
-		* このPointCustom座標にxとy分移動した新しいPointCustomを返す
+		* この座標にxとy分移動した新しいPointCustomを返す
 		* @param pt 追加する座標を持つPoint
 		* @return 新しいPointCustom
 		*/
@@ -73,7 +91,7 @@ public class PointCustom extends Point {
 		}
 
 		/**
-		* このPoint ptにxとy分移動した新しいPointを返す
+		* 指定座標にxとy分移動した新しいPointを返す
 		* @param pt 元のPoint
 		* @param x 追加するx座標
 		* @param y 追加するx座標
@@ -87,11 +105,13 @@ public class PointCustom extends Point {
 
 //方向
 	/**
-	* 進むべき方向の計算と加算を同時に
-	* 
+	* ここから進むべき方向の計算と加算を同時に
+	* tgtPdがここより右上にある場合、signumXYは+1,-1
+	* 	this.add(x * 1, y * -1)
 	* @param x 進む距離。大きさ
 	* @param y 進む距離。大きさ
-	* @param pt 目的座標
+	* @param pt 方向を特定するための目的座標
+	* @return 移動ぶんを加えた新しい座標
 	*/
 	public Point sigAdd(int x, int y, Point pt) {
 		int addX = x * signumX(pt);//xyは進む距離
@@ -100,11 +120,15 @@ public class PointCustom extends Point {
 	}
 	
 	/**
-	* xyは最終的に{-1,0,1}のどれか。
-	* thisとptの比較
-	* @param pt 目的座標
+	* この座標に対する指定座標からXY軸のプラマイの符号を得て、その値からPointを作る<br>
+		指定座標 - この座標<br>
+		例、pt:(1, 4) - this:(2, 2)<br>
+		return (-1, 1);<br>
+
+	* @param pt 目標座標
+	* @return  XYが[-1, 0, 1]のどれかで作られたPoint
 	*/
-	public Point signumPos(Point pt) {
+	public Point signumPt(Point pt) {
 		int x, y;
 		//signumXY()の中にthisが使われていることを忘れない
 		x = signumX(pt);
@@ -113,23 +137,32 @@ public class PointCustom extends Point {
 	}
 	
 	/**
-	* X軸の符号を得る
-	* 引数ptとthisの比較
+	* この座標に対する指定座標からX軸のプラマイの符号を得る<br>
+		指定座標 - この座標
+	* @param pt 目標座標
+	* @return  [-1, 0, 1]のどれか
 	*/
 	public int signumX(Point pt) {
 		return (int)Math.signum(pt.getX() - this.getX());
 	}
 
 	/**
-	* Y軸の符号を得る
-	* 引数ptとthisの比較
+	* この座標に対する指定座標からY軸のプラマイの符号を得る<br>
+		指定座標 - この座標
+	* @param pt 目標座標
+	* @return  [-1, 0, 1]のどれか
 	*/
 	public int signumY(Point pt) {
 		return (int)Math.signum(pt.getY() - this.getY());
 	}
 	
 	/**
-	* 方向を文字列として表す
+	* この座標から指定の座標の方向を文字列として表す<br>
+		nw n0 ne<br>
+		0w 00 0e<br>
+		sw s0 se<br>
+	* @param pt 目標座標
+	* @return この座標から指定座標を見た時の、文字列として表現する方角
 	*/
 	public String bearing(Point pt) {
 		String compass = "";//方角
@@ -151,19 +184,18 @@ public class PointCustom extends Point {
 	
 	
 	/**
-	* 戻り値をaddするためのメソッド
-	* 	pt.add(neswNum(i, 2));
-	* 第一引数により示す方向
-	* 	7 0 4
-	* 	3 * 1
-	* 	6 2 5
-	* 
-	* ＊メソッド名のNumは、戻り値がnumではなく引数
+	* 戻り値をaddするためのメソッド<br>
+	* 	pt.add(directMove(i, 2));<br>
+	* 第一引数により示す方向<br>
+	* 	7 0 4<br>
+	* 	3 * 1<br>
+	* 	6 2 5<br>
 	*
 	* @param num 方向を決める番号
 	* @param scale ベクトルの大きさ
+	* @return numより示す方向にscale分先の座標
 	*/
-	static public Point neswNum(int num, int scale) {
+	static public Point directMove(int num, int scale) {
 		PointCustom pt = new PointCustom(0, 0);
 		int p = 1 * scale;
 		int m = -1 * scale;
@@ -178,86 +210,82 @@ public class PointCustom extends Point {
 		return pt;
 	}
 
-//	static public int neswPd(Point pt, Point tgtPd) {
-//		double col = Math.abs(tgtPd.getX() - pt.getX());
-//		double row = Math.abs(tgtPd.getY() - pt.getY());
-//		int csig = (int)Math.signum(col);
-//		int rsig = (int)Math.signum(row);
-//		if(csig == 0 && rsig == -1) { return 0; }
-//		if(csig == 1 && rsig == 0) { return 1; }
-//		if(csig == 0 && rsig == 1) { return 2; }
-//		if(csig == -1 && rsig == 0) { return 3; }
-//		if(csig == 1 && rsig == -1) { return 4; }
-//		if(csig == 1 && rsig == 1) { return 5; }
-//		if(csig == -1 && rsig == 1) { return 6; }
-//		if(csig == -1 && rsig == -1) { return 7; }
-//		return -1;
-//	}
-
-
 	/**
 	* 目的地が現在地の隣(＋１)の地点か？
-	* 
 	* @param pt 現在地
-	* @param tgtPd 目的地
+	* @param tgtPt 目的地
+	* @return 隣同士なら真
 	*/
-	static public boolean isNext(Point pt, Point tgtPd) {
+	static public boolean isNext(Point pt, Point tgtPt) {
 		boolean bool = false;
 		PointCustom casted = PointCustom.cast(pt);
 		for(int i = 0; i < 4; i++) {
-			bool = tgtPd.equals( casted.add(neswNum(i, 1)) );
+			bool = tgtPt.equals( casted.add(directMove(i, 1)) );
 			if(bool) { break; }
 		}
 		return bool;
 	}
 
 	/**
-	* 上下左右の＋１の座標配列を返す
+	* 指定座標の上下左右の＋１の座標配列を返す。指定座標は含まない
+	* @param pt 指定座標
+	* @return 隣の座標４つが入った配列
 	*/
 	static public Point[] nexts(Point pt) {
 		Point[] karis = new Point[4];
 		PointCustom casted = PointCustom.cast(pt);
 		for(int i = 0; i < 4; i++) {
-			karis[i] = casted.add(neswNum(i, 1));
+			karis[i] = casted.add(directMove(i, 1));
 		}
 		return karis;
 	}
 
+	/**
+	* 上下左右斜めの＋１の座標配列を返す
+	* @param pt 指定座標
+	* @return 隣の座標８つが入った配列
+	*/
 	static public Point[] eight(Point pt) {
 		Point[] karis = new Point[8];
 		PointCustom casted = PointCustom.cast(pt);
 		for(int i = 0; i < 8; i++) {
-			karis[i] = casted.add(neswNum(i, 1));
+			karis[i] = casted.add(directMove(i, 1));
 		}
 		return karis;
 	}
 
 	/**
 	* ランダムで隣のプラマイ１のPointを返す
+	* @return 適当な隣の座標
 	*/
 	static public Point rndmNext() {
 		int rndm = (int)(Math.random() * 4);
-		return neswNum(rndm, 1);
+		return directMove(rndm, 1);
 	}
 
 	/**
-	* 推奨。rndmNext()よりこっち。連続して同じ値が出ない
-	* 使用するクラスで、pt.add(neswFour())
+	* randomNext()の連続して同じ値が出ない版<br>
+	* 使用するクラスで、pt.add(nextFour())
+	* @return 適当な隣の座標
 	*/
-	public Point neswFour() {
-		return neswNum(fourList(), 1);
+	public Point nextFour() {
+		return directMove(fourList(false), 1);
 	}
 
 		/**
-		* 推奨。fourListをstaticで共有するべきでないので
 		* fourListの中からランダムに選びその値を消すので、重複がない
 		* このメソッドを５回呼ぶか、resetFourList()でfourListを元に戻す。
 		* ５回目は-1確定
+		* @param reset 真ならfourListを回復する
+		* @return 0 〜　３のどれか
 		*/
-		public int fourList() {
+		public int fourList(boolean reset) {
+			if(reset) {
+				resetFourList();
+			}
 			if(fourList.size() == 0) {
 				fourList.addAll(yonList);//回復はするけど
-				return -1;//返すのはneswNumにない８としていた時代もある
+				return -1;//返すのはdirectMoveにない８としていた時代もある
 			}
 			
 			//four.size() == 4 なら kari == 0~3
@@ -268,8 +296,13 @@ public class PointCustom extends Point {
 			return result;
 		}
 		
-		
+	/**
+	* fourListを返す
+	* @return fourList
+	*/
 	public List<Integer> getFourList() { return fourList; }
+
+	/** * fourListを回復 */
 	public void resetFourList() {
 		fourList.clear();
 		fourList.addAll(yonList);
@@ -278,7 +311,10 @@ public class PointCustom extends Point {
 
 //距離
 	/**
-	* 角距離。直線ではなく２辺の距離
+	* マンハッタン距離。直線ではなく２辺の距離
+	* @param pt ここから
+	* @param tgtPt そこ
+	* @return 距離
 	*/
 	static public int kakuKyori(Point pt, Point tgtPt) {
 		double col = Math.abs(pt.getX() - tgtPt.getX());
@@ -286,29 +322,21 @@ public class PointCustom extends Point {
 		return (int)(col + row);
 	}
 
-	/**
-	* ２点間の直角距離。壁無視
-	* dis : ピタゴラス。直線距離
-	* pow : a^2 + b^2 = c^2 = dis
-	* sqrt : (a==1)a^2=1, c^2 - a^2 = b^2 
-	* 		c = sqrt(a^2 + b^2)
-	*/
-	static public double kyori(Point pt, Point tgtPt) {
-		double dis = pt.distance(tgtPt);
-		double pow = Math.pow(dis, 2);
-		double sqrt = Math.sqrt(pow / 2) * 2;
-		return Math.round(sqrt);
-	}
-
-		static public int kyoriInt(Point pt, Point tgtPt) {
-			return (int)kyori(pt, tgtPt);
-		}
-
 
 //	便利
+	/** 
+	* Pointのxのint値
+	* @param pt Point
+	* @return Pointのxのint値
+	*/
 	static public int x(Point pt) {
 		return (int)pt.getX();
 	}
+	/** 
+	* Point2Dのyのint値
+	* @param pt Point
+	* @return Pointのyのint値
+	*/
 	static public int y(Point pt) {
 		return (int)pt.getY();
 	}
@@ -319,6 +347,7 @@ public class PointCustom extends Point {
 	/**
 	* Pointの座標を元に、新しいPointCustomを返す
 	* @param pt Pointオブジェクト
+	* @return PointCustomオブジェクト
 	*/
 	static public PointCustom cast(Point pt) {
 		return new PointCustom(pt);
@@ -326,13 +355,18 @@ public class PointCustom extends Point {
 
 
 
+	/** * 便利機能 */
 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫
+	/**
+	* 「+" "+」でつなげるのめんどいから
+	* @param objs 可変長Object
+	*/
 	public void print(Object... objs) {
 		qu.print(objs);
 	}
 
 
-
+		/** * fourList実験 */
 		static public void fourListJikken() {
 //			List<Integer> yonList = List.of(1,2,3,4);
 //			List<Integer> fourList = new ArrayList<>();

@@ -13,17 +13,19 @@ import javafx.scene.text.Text;
 import yagi.murasaki.utilCompo.quick.QuickUtil;
 
 /**
-* 変数格納せずに、親ステージpareを取り込んでnewするだけ
+* サブステージの作成<br>
+* 作り方<br>
+* 変数に格納せずに、親ステージを取り込んでnewするだけ
 * 
 */
 public class SatelliteStage extends Stage {
 
-	/**
-	* 親ステージ
-	*/
+	/** * 親ステージ */
 	protected Stage pare;
 	
+	/** * ペイン */
 	protected Pane pane;
+	/** * ウィンドウサイズ */
 	protected int width, height;
 
 	/**
@@ -40,7 +42,7 @@ public class SatelliteStage extends Stage {
 		this.height = height;
 		pane = new Pane();
 		Scene scene = new Scene(pane, width, height);
-		this.setTitle("engine.SatelliteStage");
+		this.setTitle("this.setTitle(””)");
 		this.setScene(scene);
 		this.show();
 		position(pos);
@@ -52,8 +54,6 @@ public class SatelliteStage extends Stage {
 	* @param y 縦位置
 	*/
 	public void position(double x, double y) {
-//		setX(pare.getX() + pare.getWidth());
-//		setY(pare.getY() + pare.getHeight());
 		setX(x);
 		setY(y);
 	}
@@ -84,6 +84,7 @@ public class SatelliteStage extends Stage {
 		this.height = h;
 	}
 	
+	/** * 便利機能 */
 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫
 	/**
 	* 「+" "+」でつなげるのめんどいから

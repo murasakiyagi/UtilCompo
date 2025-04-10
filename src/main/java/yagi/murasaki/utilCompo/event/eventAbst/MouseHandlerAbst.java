@@ -21,21 +21,26 @@ import yagi.murasaki.utilCompo.event.HandlerFace;
 import yagi.murasaki.utilCompo.information.InfoSubject;
 import yagi.murasaki.utilCompo.information.Information;
 
-/*
-MouseEventの座標について
-	getX(), getScreenX(), getSceneX()
-	getSceneXはSceneの相対位置で、マウスカーソルが移動していなくてもsceneの座標が変わればマウスカーソルの相対位置は変わる。
-	EventはNodeかSceneのどちらかのソースに適用される。getXは適用されたソースの相対位置
-	getScreenXはウィンドウの左上を起点にした絶対位置
+//MouseEventの座標について
+//	getX(), getScreenX(), getSceneX()
+//	getSceneXはSceneの相対位置で、マウスカーソルが移動していなくてもsceneの座標が変わればマウスカーソルの相対位置は変わる。
+//	EventはNodeかSceneのどちらかのソースに適用される。getXは適用されたソースの相対位置
+//	getScreenXはウィンドウの左上を起点にした絶対位置
+//
+//
+//Node.mouseTransparent
+//	マウスイベントに対する透過性
+//
+//Node.viewOrder
+//	Nodeのレンダリング順序
+//	通常、Paneなどが持つObservableListの子の順序でレンダリングされるが、このオーダーが優先される
 
 
-Node.mouseTransparent
-	マウスイベントに対する透過性
-
-Node.viewOrder
-	Nodeのレンダリング順序
-	通常、Paneなどが持つObservableListの子の順序でレンダリングされるが、このオーダーが優先される
-
+/**
+* マウスイベントの対応
+* 
+* 
+* 
 */
 public abstract class MouseHandlerAbst implements HandlerFace<MouseEvent> {
 
@@ -198,7 +203,10 @@ public abstract class MouseHandlerAbst implements HandlerFace<MouseEvent> {
 
 	/** * 便利機能 */
 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫
-	/** * 「 +" "+ 」いらず * @param objs 可変長Object */
+	/**
+	* 「+" "+」でつなげるのめんどいから
+	* @param objs 可変長Object
+	*/
 	public void print(Object... objs) {
 		qu.print(objs);
 	}
@@ -207,6 +215,7 @@ public abstract class MouseHandlerAbst implements HandlerFace<MouseEvent> {
 	* 型名を調べる下よりシンプル
 	* node.getTypeSelector() == node.getClass().getName()
 	* @param obj 調べたいオブジェクト
+	* @return オブジェクトの型名
 	*/
 	String reType(Object obj) {//型名を調べる
 		return obj.getClass().getSimpleName();

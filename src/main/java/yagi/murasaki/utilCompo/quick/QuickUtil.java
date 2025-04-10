@@ -9,21 +9,28 @@ import java.util.function.Consumer;
 */
 public class QuickUtil {
 	
+	/** * あれ。これじゃない */
 	private Object that;
+	/** * これのprint()呼び出しごとに増える */
 	private long cnt;
-	static long heapCnt;
+	/** * static.print()呼び出し回数 */
+	static long cntS;
 	
+	/** * からのコンストラクタ */
 	public QuickUtil() {}
-	/** * @param that 表示したいクラス名 */
+	/** 
+	* コンストラクタ
+	* @param that 表示したいクラス名 
+	*/
 	public QuickUtil(Object that) {
 		this.that = that;
 	}
 
 	/**
-	* 使用方法
-	* 	import util.QuickUtil;
-	* 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫
-	* 	protected void print(Object... objs) { qu.print(objs); }
+	* 使用方法<br>
+	* 	import util.QuickUtil;<br>
+	* 	QuickUtil qu = new QuickUtil(this);//サブクラスも大丈夫<br>
+	* 	protected void print(Object... objs) { qu.print(objs); }<br>
 	* @param objs 可変長Object
 	*/
 	public void print(Object... objs) {
@@ -64,7 +71,7 @@ public class QuickUtil {
 	* @param objs 可変長Object
 	*/
 	static public void printS(Object that, Object... objs) {
-		System.out.print(" !" + that.getClass().getSimpleName() + "! ");
+		System.out.print(cntS++ + "  !" + that.getClass().getSimpleName() + "! ");
 		for(int i=0; i < objs.length; i++) {
 			System.out.print(" " + objs[i]);
 		}
@@ -77,7 +84,7 @@ public class QuickUtil {
 		* @param num 受け取った値
 		* @param min 納めたい最小値。以内
 		* @param max 納めたい最大値。以内
-		* @return min <= num <= max
+		* @return min ＜= num ＜= max
 		*/
 		public int limitRegu(int num, int min, int max) {
 			if(num < min) { return min; }

@@ -141,7 +141,10 @@ public abstract class Att {
 	
 	/** * 便利なはず。サブクラスも大丈夫 */
 	protected QuickUtil qu = new QuickUtil(this);
-	/** * コンマ区切りprintln * @param objs 可変長Object */
+	/**
+	* 「+" "+」でつなげるのめんどいから
+	* @param objs 可変長Object
+	*/
 	public void print(Object... objs) {
 		qu.print(objs);
 	}
